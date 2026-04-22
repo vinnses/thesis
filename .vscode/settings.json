@@ -1,0 +1,102 @@
+{
+  "latex-workshop.latex.tools": [
+    {
+      "name": "make-build",
+      "command": "make",
+      "args": [
+        "build"
+      ]
+    },
+    {
+      "name": "make-pdf",
+      "command": "make",
+      "args": [
+        "pdf"
+      ]
+    },
+    {
+      "name": "make-watch",
+      "command": "make",
+      "args": [
+        "watch"
+      ]
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "Makefile: pdf",
+      "tools": [
+        "make-pdf"
+      ]
+    },
+    {
+      "name": "Makefile: build",
+      "tools": [
+        "make-build"
+      ]
+    },
+    {
+      "name": "Makefile: watch",
+      "tools": [
+        "make-watch"
+      ]
+    }
+  ],
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.outDir": "%DIR%",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.search.rootFiles.include": [
+    "tex/*.tex"
+  ],
+  "latex-workshop.latex.rootFile.useSubFile": false,
+  "ltex.language": "en-US",
+  "cSpell.enabled": true,
+  "cSpell.dictionaryDefinitions": [
+    {
+      "name": "workspaceTerms",
+      "path": "${workspaceFolder}/.vscode/cspell-workspace.txt",
+      "addWords": true
+    }
+  ],
+  "cSpell.dictionaries": [
+    "workspaceTerms"
+  ],
+  "files.exclude": {
+    "**/*.aux": true,
+    "**/*.bbl": true,
+    "**/*.bcf": true,
+    "**/*.blg": true,
+    "**/*.fdb_latexmk": true,
+    "**/*.fls": true,
+    "**/*.lof": true,
+    "**/*.lot": true,
+    "**/*.out": true,
+    "**/*.run.xml": true,
+    "**/*.synctex.gz": true,
+    "**/*.toc": true,
+    "**/*.xdv": true
+  },
+  "files.watcherExclude": {
+    "**/*.aux": true,
+    "**/*.bbl": true,
+    "**/*.bcf": true,
+    "**/*.blg": true,
+    "**/*.fdb_latexmk": true,
+    "**/*.fls": true,
+    "**/*.lof": true,
+    "**/*.lot": true,
+    "**/*.out": true,
+    "**/*.run.xml": true,
+    "**/*.synctex.gz": true,
+    "**/*.toc": true,
+    "**/*.xdv": true
+  },
+  "ltex.enabled": [
+    "latex"
+  ],
+  "cSpell.enabledLanguageIds": [
+    "latex"
+  ],
+  "cSpell.language": "en,pt,pt-BR"
+}

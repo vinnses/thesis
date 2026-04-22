@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOOLING_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+REPO_ROOT="$(cd "${TOOLING_ROOT}/.." && pwd)"
+
+source "${TOOLING_ROOT}/lib/common.sh"
+source "${TOOLING_ROOT}/lib/classify.sh"
+source "${TOOLING_ROOT}/lib/ctan.sh"
+source "${TOOLING_ROOT}/lib/bootstrap.sh"
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  bin/latexctl <subcommand> [args...]
+
+Subcommands:
+  build           Compile the LaTeX project with smart dependency sync
+  bootstrap       Initialize tex/ when empty and run dependency sync
+  classify-error  Classify a LaTeX failure log into user/environment buckets
+  ctan-mirror     Print the selected CTAN tlnet mirror
+  report-build    Write a Markdown build report from a LaTeX log
+  sync            Scan sources and install missing TeX dependencies
+  ziptex          Package TeX sources for export
+  help            Show this help
+USAGE
+}
+
+subcommand="${1:-help}"
+if [[ $# -gt 0 ]]; then
+  shift
+fi
+
+case "${subcommand}" in
+  build)
+    exec "${TOOLING_ROOT}/lib/build.sh" "$@"
+    ;;
+  bootstrap)
+    latexctl_bootstrap "$@"
+    ;;
+  classify-error)
+    latexctl_classify_error "$@"
+    ;;
+  ctan-mirror)
+    latexctl_ctan_resolve_mirror "$@"
+    ;;
+  report-build)
+    latexctl_report_build "$@"
+    ;;
+  sync)
+    exec "${TOOLING_ROOT}/lib/sync.sh" "$@"
+    ;;
+  ziptex)
+    exec "${TOOLING_ROOT}/lib/ziptex.sh" "$@"
+    ;;
+  help|-h|--help|"")
+    usage
+    ;;
+  *)
+    echo "Unknown subcommand: ${subcommand}" >&2
+    usage >&2
+    exit 2
+    ;;
+esac

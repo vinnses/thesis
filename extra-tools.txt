@@ -1,0 +1,3 @@
+# Extra non-relocatable tools to install for this workspace.
+chktex
+latexindent

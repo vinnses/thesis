@@ -1,0 +1,46 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+*.previous.pdf
+
+# Latexmk temp dirs/files
+latex.out/
+
+# Environment files
+.env
+
+# Template bootstrap state. Remove this block when the repo becomes a tracked dissertation.
+/tex/
+/.used_packages
+/.used_tools
+/0-iniciais/
+/1-intro/
+/2-fundam/
+/a1-exemplo/
+/a2-exemplo/
+
+# OS/editor noise
+.DS_Store
+/.vscode/*
+!/.vscode/settings.json
+!/.vscode/ltex.dictionary.txt
+!/.vscode/cspell-workspace.txt
+
+# Others
+.tmp/
+*.tmp
+.latex-errors/
+.build_retry_installs
+build-report.md

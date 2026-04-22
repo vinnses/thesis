@@ -1,0 +1,29 @@
+services:
+  texservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ${TEXLIVE:-minimal}
+      args:
+        TEXUSER: ${TEXUSER}
+        TEXUID: ${TEXUID}
+        TEXGID: ${TEXGID}
+        CTAN_MIRROR: ${CTAN_MIRROR:-}
+    image: teximage:${TEXLIVE:-minimal}
+    hostname: ${COMPOSE_PROJECT_NAME:-template-latex-docker}
+    working_dir: /workspace
+    env_file:
+      - .env
+    environment:
+      CTAN_MIRROR: ${CTAN_MIRROR:-}
+    tty: true
+    stdin_open: true
+    command: sleep infinity
+    volumes:
+      - ./:/workspace
+      - texdata:/texdata
+      - ${HOME}/.ssh:/home/${TEXUSER}/.ssh:ro
+      - ${HOME}/.gitconfig:/home/${TEXUSER}/.gitconfig:ro
+
+volumes:
+  texdata:
