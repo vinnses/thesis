@@ -9,8 +9,10 @@ services:
         TEXUID: ${TEXUID}
         TEXGID: ${TEXGID}
         CTAN_MIRROR: ${CTAN_MIRROR:-}
+        LATEXCTL_REPOSITORY: ${LATEXCTL_REPOSITORY:-https://github.com/vinnses/latexctl.git}
+        LATEXCTL_REF: ${LATEXCTL_REF:-main}
     image: teximage:${TEXLIVE:-minimal}
-    hostname: ${COMPOSE_PROJECT_NAME:-template-latex-docker}
+    hostname: ${COMPOSE_PROJECT_NAME}
     working_dir: /workspace
     env_file:
       - .env

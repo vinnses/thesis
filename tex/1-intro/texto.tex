@@ -1,0 +1,67 @@
+\chapter{Introdução}
+
+%=====================================================
+
+% A introdução geral do documento pode ser apresentada através das seguintes seções: Desafio, Motivação, Proposta, Contribuição e Organização do documento (especificando o que será tratado em cada um dos capítulos). O Capítulo 1 não contém subseções\footnote{Ver o Capítulo \ref{cap-exemplos} para comentários e exemplos de subseções.}.
+
+Este modelo foi proposto com o intuito de padronizar e simplificar as monografias, dissertações e teses produzidas no Departamento de Informática da UFPR. Ele foi vagamente inspirado nas normas da ABNT (conforme indicado em \cite{bibufpr15}), mas não as segue \emph{ipsis litteris}. Várias alterações foram feitas com o objetivo de melhorar sua estética e tornar o texto mais legível para trabalhos na área de informática. A versão atualizada deste modelo está disponível em \cite{maziero15}.
+
+Este modelo está baseado em uma classe especifica \verb#ppginf.cls#, que aceita várias opções de compilação. A versão do documento pode ser:
+
+\begin{itemize}
+
+\item \verb#defesa#: é gerado um documento em espaço 1,5, frente simples e sem as páginas iniciais adicionais; é uma versão adequada para receber as anotações dos membros da banca de defesa.
+
+\item \verb#final#: é gerado um documento em espaço simples, frente/verso, com páginas iniciais (capa, ficha catalográfica, folha de aprovação, agradecimentos, etc). É uma versão bem mais compacta, mais ecológica e ideal para a impressão definitiva.
+
+\end{itemize}
+
+Para obter os melhores resultados, compile este modelo usando a seguinte sequência de passos:
+
+\begin{quote}
+\begin{footnotesize}
+\begin{verbatim}
+pdflatex  main          // compilação inicial
+bibtex main             // processa bibliografia
+pdflatex  main          // compilação final
+\end{verbatim}
+\end{footnotesize}
+\end{quote}
+
+ou
+
+\begin{quote}
+\begin{footnotesize}
+\begin{verbatim}
+make                    // faz tudo...
+\end{verbatim}
+\end{footnotesize}
+\end{quote}
+
+Os principais itens considerados na formatação deste documento foram:
+
+\begin{itemize}
+
+\item Papel em formato A4, com margens de 20 mm à direita e embaixo, 30 mm nos demais lados. Não devem ser usados cabeçalhos ou rodapés além dos que estão aqui propostos.
+
+\item O texto principal do documento escrito em 12 pontos. O fonte principal do texto pode ser selecionado no arquivo \verb#packages.tex#.
+
+\item Código-fonte, listagens e textos similares são formatados em fonte Courier 12 ou 10 pontos.
+
+\item O espaçamento padrão entre linhas é 1,5 linhas (1 linha na versão final). Não inserir espaços adicionais entre parágrafos normais. Figuras, tabelas, listagens e listas de itens devem ter um espaço adicional antes e após os mesmos.
+
+\item As páginas iniciais não são numeradas.
+
+\item O corpo do texto é numerado com algarismos arábicos (1, 2, 3, ...) a partir da introdução, ate o final do documento. Os números de página devem estar situados no alto à direita (páginas direitas) ou à esquerda (páginas esquerdas).
+
+\item Expressões em inglês, grego, latim ou outras línguas devem ser enfatizadas em itálico, como \emph{sui generis} ou \emph{scheduling} (use o comando \verb#\emph{...}#).
+
+\item Para reforçar algo, deve-se usar somente \textbf{negrito}. \underline{Sublinhado} ou MAIÚSCULAS não devem ser usados como forma de ênfase!
+
+\item As notas de rodapé também têm um modelo\footnote{As notas de rodapé dever ser escritas em tamanho 10 pt, numeradas em arábico.}. Notas de rodapé servem para fazer algum comentário paralelo; não as use para colocar URLs, referências bibliográficas ou significado de siglas.
+
+\end{itemize}
+
+Felizmente o \LaTeX\ resolve a maior parte dessas questões!
+
+%=====================================================

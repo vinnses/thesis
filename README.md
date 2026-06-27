@@ -11,9 +11,9 @@ You can replace the contents of `tex/` with another template/project when needed
    ```bash
    cp .env.example .env
    ```
-   > `TEMPLATE_URL` is optional. If empty, the `entrypoint` seeds `tex/` from the internal scaffold bundled in this repository.
+   > `TEMPLATE_URL` is optional. If empty, the `entrypoint` asks standalone `latexctl` to seed `tex/` from its default scaffold.
 
-   > `CTAN_MIRROR` is optional. If empty, build/runtime TeX Live operations use the first entry from `latexctl/ctan-mirrors.txt`.
+   > `CTAN_MIRROR` is optional. If empty, build/runtime TeX Live operations use the first mirror provided by `latexctl`.
 
    > `TEXLIVE` controls the build profile (`minimal` or `full`).
 
@@ -32,17 +32,8 @@ You can replace the contents of `tex/` with another template/project when needed
 
 ```text
 .
-├── latexctl/
-│   ├── bin/
-│   │   └── latexctl
-│   ├── lib/
-│   │   ├── bootstrap.sh
-│   │   ├── build.sh
-│   │   ├── classify.sh
-│   │   ├── common.sh
-│   │   ├── sync.sh
-│   │   └── ziptex.sh
-│   └── tests/
+├── bin/
+│   └── latexctl
 ├── entrypoint.sh
 ├── .devcontainer/
 │   └── devcontainer.json
@@ -60,11 +51,12 @@ You can replace the contents of `tex/` with another template/project when needed
 ## Utility scripts
 
 - `entrypoint.sh`: root-level container entrypoint. It bootstraps `tex/` when needed and then delegates to the main command surface.
-- `latexctl/bin/latexctl`: central command surface for LaTeX workspace operations.
+- `bin/latexctl`: lightweight launcher that clones or fast-forwards the standalone `latexctl` repository before delegating commands.
+  - `bin/latexctl self-test`: runs the standalone repository regression suite used by `make test`.
   - `latexctl build`: cleans auxiliary files once at the start inside `tex/`, keeps only the current PDF plus a single `.previous.pdf` backup, runs smart sync, and wraps `latexmk` with bounded retry logic for TeX files and font metrics. When the build cannot recover automatically, it writes reduced diagnostics under `.latex-errors/`.
   - `latexctl sync`: scans `tex/` sources, resolves missing modules via TeX Live ownership data, and installs them.
   - `latexctl ziptex`: packages TeX sources for export.
-  - `latexctl bootstrap`: initializes `tex/` when empty from the internal scaffold by default, or from `TEMPLATE_URL` when an explicit external override is provided.
+  - `latexctl bootstrap`: initializes `tex/` from the standalone tool's default scaffold, or from `TEMPLATE_URL` when an explicit external override is provided.
   - `latexctl classify-error`: categorizes failure logs into user/project errors vs environment/runtime errors.
   - `latexctl ctan-mirror`: prints the selected CTAN `tlnet` repository after applying `CTAN_MIRROR` override and repo defaults.
 
@@ -72,12 +64,12 @@ You can replace the contents of `tex/` with another template/project when needed
 
 The default flow is:
 
-1. `make sync` runs `latexctl/bin/latexctl sync`.
+1. `make sync` runs `bin/latexctl sync`.
 2. The sync script scans `tex/` sources for document classes, packages, and package requests.
 3. Each logical module name is checked with `kpsewhich`; missing modules are resolved against TeX Live metadata instead of a handwritten alias table.
 4. Packages are written to `.used_packages`, and non-relocatable tools are written to `.used_tools`.
 5. If a package or tool is still missing, the script installs it through the appropriate `tlmgr` mode.
-6. `make build` runs `latexctl/bin/latexctl build`, which cleans aux files once at the beginning inside `tex/`, keeps one previous PDF copy, calls sync, compiles into `tex/` with `latexmk`, and retries when the log exposes a recoverable missing-file dependency (including `.tex` support files and `.tfm` font metrics).
+6. `make build` runs `bin/latexctl build`, which cleans aux files once at the beginning inside `tex/`, keeps one previous PDF copy, calls sync, compiles into `tex/` with `latexmk`, and retries when the log exposes a recoverable missing-file dependency (including `.tex` support files and `.tfm` font metrics).
 7. Dynamic package installs triggered specifically by the build retry loop are appended to `.build_retry_installs`.
 
 When the build still fails, the wrapper writes a reduced report to `.latex-errors/`:
@@ -90,7 +82,7 @@ This does not suppress normal LaTeX output. It adds a smaller diagnostic surface
 
 Project config files are supported when TeX Live metadata is ambiguous or when the project needs extra tools:
 
-- `latexctl/package-overrides.conf`: manual package-owner overrides for ambiguous module/file resolution.
+- `LATEXCTL_PACKAGE_OVERRIDE_FILE`: optional project-specific package-owner overrides for ambiguous module/file resolution.
 - `extra-tools.txt`: versioned extra tool names to install alongside the inferred tool set.
 
 TeX packages are detected automatically from `tex/` sources and installed through `tlmgr --usermode`.

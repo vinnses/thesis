@@ -21,15 +21,18 @@ latex.out/
 # Environment files
 .env
 
+# Dynamically managed latexctl checkout when kept inside the project.
+/.latexctl/
+
 # Template bootstrap state. Remove this block when the repo becomes a tracked dissertation.
-/tex/
-/.used_packages
-/.used_tools
-/0-iniciais/
-/1-intro/
-/2-fundam/
-/a1-exemplo/
-/a2-exemplo/
+#/tex/
+#/.used_packages
+#/.used_tools
+#/0-iniciais/
+#/1-intro/
+#/2-fundam/
+#/a1-exemplo/
+#/a2-exemplo/
 
 # OS/editor noise
 .DS_Store

@@ -6,7 +6,8 @@ BUILD_REPORT ?= build-report.md
 LATEX_SEARCH_ENV = TEXINPUTS="$(MAIN_TEX_DIR)//:$$TEXINPUTS:" BIBINPUTS="$(MAIN_TEX_DIR)//:$$BIBINPUTS:" BSTINPUTS="$(MAIN_TEX_DIR)//:$$BSTINPUTS:"
 LATEXMK ?= latexmk
 LATEXMK_FLAGS ?= -interaction=nonstopmode -file-line-error
-LATEX_BUILD ?= latexctl/bin/latexctl build
+LATEXCTL ?= bin/latexctl
+LATEX_BUILD ?= $(LATEXCTL) build
 BUILD_DEPS ?= latexmk tlmgr
 LINT_DEPS ?= chktex
 FORMAT_DEPS ?= latexindent
@@ -29,16 +30,15 @@ help:
 	@echo "  make ci          - run deps, check-env, lint, and build"
 
 sync:
-	latexctl/bin/latexctl sync
+	$(LATEXCTL) sync
 
 deps: sync
 
 zip:
-	latexctl/bin/latexctl ziptex
+	$(LATEXCTL) ziptex
 
 test:
-	bash latexctl/tests/test_sync_tlmgr.sh
-	bash latexctl/tests/test_latexctl.sh
+	$(LATEXCTL) self-test
 
 check-env:
 	@for bin in $(BUILD_DEPS); do \
@@ -54,7 +54,7 @@ pdf: check-env
 	status=$$?; \
 	report_status=success; \
 	if [ $$status -ne 0 ]; then report_status=failure; fi; \
-	latexctl/bin/latexctl report-build --status "$$report_status" --log "$(MAIN_TEX_LOG)" --output "$(BUILD_REPORT)" --output-dir .latex-errors; \
+	$(LATEXCTL) report-build --status "$$report_status" --log "$(MAIN_TEX_LOG)" --output "$(BUILD_REPORT)" --output-dir .latex-errors; \
 	report_exit=$$?; \
 	if [ $$report_exit -ne 0 ]; then exit $$report_exit; fi; \
 	exit $$status

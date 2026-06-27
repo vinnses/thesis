@@ -5,9 +5,13 @@ ARG TEXUSER=texuser
 ARG TEXUID=1000
 ARG TEXGID=1000
 ARG CTAN_MIRROR=
+ARG LATEXCTL_REPOSITORY=https://github.com/vinnses/latexctl.git
+ARG LATEXCTL_REF=main
 
 ENV USERNAME=${TEXUSER}
 ENV CTAN_MIRROR=${CTAN_MIRROR}
+ENV LATEXCTL_REPOSITORY=${LATEXCTL_REPOSITORY}
+ENV LATEXCTL_REF=${LATEXCTL_REF}
 ENV TEXMFHOME=/texdata/texmf-home
 ENV TEXMFVAR=/texdata/texmf-var
 ENV TEXMFCONFIG=/texdata/texmf-config
@@ -15,7 +19,7 @@ ENV TERM=xterm-256color
 ENV EDITOR=vim
 ENV VISUAL=vim
 ENV PAGER=less
-ENV PATH=/usr/local/texlive/bin/x86_64-linux:${PATH}:${TEXMFHOME}/scripts:/workspace/latexctl/bin
+ENV PATH=/usr/local/texlive/bin/x86_64-linux:${PATH}:${TEXMFHOME}/scripts:/workspace/bin
 
 WORKDIR /workspace
 
@@ -84,24 +88,19 @@ if [ -n "${PS1:-}" ]; then
 fi
 EOF
 
-COPY latexctl/bin/select-ctan-mirror /usr/local/share/latexctl/bin/select-ctan-mirror
-COPY latexctl/lib/common.sh /usr/local/share/latexctl/lib/common.sh
-COPY latexctl/lib/ctan.sh /usr/local/share/latexctl/lib/ctan.sh
-COPY latexctl/ctan-mirrors.txt /usr/local/share/latexctl/ctan-mirrors.txt
-
-RUN chmod +x /usr/local/share/latexctl/bin/select-ctan-mirror
+COPY --chmod=0755 bin/latexctl /usr/local/bin/latexctl
 
 ENTRYPOINT ["/workspace/entrypoint.sh"]
 
 FROM base AS minimal
 
 RUN set -eux; \
-  ctan_repo="$("/usr/local/share/latexctl/bin/select-ctan-mirror")"; \
+  ctan_repo="$(LATEXCTL_PROJECT_ROOT=/workspace latexctl ctan-mirror)"; \
   tmpdir="$(mktemp -d)"; \
   curl -fsSL "${ctan_repo%/}/install-tl-unx.tar.gz" -o "${tmpdir}/install-tl.tar.gz"; \
   tar -xzf "${tmpdir}/install-tl.tar.gz" -C "${tmpdir}"; \
   installer_dir="$(find "${tmpdir}" -maxdepth 1 -type d -name 'install-tl-*' | head -n1)"; \
-  { echo 'selected_scheme scheme-small'; echo 'TEXDIR /usr/local/texlive'; echo 'option_doc 0'; echo 'option_src 0'; } > "${tmpdir}/texlive.profile"; \
+  { echo 'selected_scheme scheme-basic'; echo 'TEXDIR /usr/local/texlive'; echo 'option_doc 0'; echo 'option_src 0'; } > "${tmpdir}/texlive.profile"; \
   "${installer_dir}/install-tl" -profile "${tmpdir}/texlive.profile"; \
   rm -rf "${tmpdir}"; \
   tlmgr option repository "${ctan_repo}"; \
@@ -113,7 +112,7 @@ CMD ["bash"]
 FROM base AS full
 
 RUN set -eux; \
-  ctan_repo="$("/usr/local/share/latexctl/bin/select-ctan-mirror")"; \
+  ctan_repo="$(LATEXCTL_PROJECT_ROOT=/workspace latexctl ctan-mirror)"; \
   tmpdir="$(mktemp -d)"; \
   curl -fsSL "${ctan_repo%/}/install-tl-unx.tar.gz" -o "${tmpdir}/install-tl.tar.gz"; \
   tar -xzf "${tmpdir}/install-tl.tar.gz" -C "${tmpdir}"; \

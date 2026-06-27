@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LATEXCTL_REPOSITORY="${LATEXCTL_REPOSITORY:-https://github.com/vinnses/latexctl.git}"
+LATEXCTL_REF="${LATEXCTL_REF:-main}"
+LATEXCTL_HOME="${LATEXCTL_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/latexctl}"
+
+if [[ ! -d "${LATEXCTL_HOME}/.git" ]]; then
+  rm -rf "${LATEXCTL_HOME}"
+  mkdir -p "$(dirname "${LATEXCTL_HOME}")"
+  git clone --branch "${LATEXCTL_REF}" --single-branch "${LATEXCTL_REPOSITORY}" "${LATEXCTL_HOME}"
+elif [[ -z "$(git -C "${LATEXCTL_HOME}" status --porcelain)" ]]; then
+  git -C "${LATEXCTL_HOME}" fetch origin "${LATEXCTL_REF}" --quiet
+  git -C "${LATEXCTL_HOME}" checkout "${LATEXCTL_REF}" --quiet
+  git -C "${LATEXCTL_HOME}" merge --ff-only "origin/${LATEXCTL_REF}" --quiet
+else
+  printf 'latexctl: local checkout is dirty; using it without updating\n' >&2
+fi
+
+export LATEXCTL_PROJECT_ROOT="${LATEXCTL_PROJECT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+
+if [[ "${1:-}" == "self-test" ]]; then
+  env -u LATEXCTL_PROJECT_ROOT "${LATEXCTL_HOME}/tests/test_latexctl.sh"
+  exec env -u LATEXCTL_PROJECT_ROOT "${LATEXCTL_HOME}/tests/test_sync_tlmgr.sh"
+fi
+
+exec "${LATEXCTL_HOME}/bin/latexctl" "$@"

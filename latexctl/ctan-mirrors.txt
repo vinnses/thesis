@@ -1,5 +1,0 @@
-# Preferred CTAN tlnet repositories.
-# Reorder this file to change the default mirror selection when CTAN_MIRROR is unset.
-https://ctan.math.illinois.edu/systems/texlive/tlnet
-https://ftp.fau.de/ctan/systems/texlive/tlnet
-https://mirror.ctan.org/systems/texlive/tlnet
