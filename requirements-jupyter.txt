@@ -1,0 +1,5 @@
+jupyterlab>=4.4,<5
+jupyterlab-git>=0.51,<1
+jupyterlab-lsp>=5.2,<6
+jupyter-resource-usage>=1.1,<2
+jupytext>=1.17,<2

@@ -16,16 +16,25 @@ services:
     working_dir: /workspace
     env_file:
       - .env
+      - path: .secrets/jupyter.env
+        required: false
     environment:
       CTAN_MIRROR: ${CTAN_MIRROR:-}
+      JUPYTER_ENABLED: ${JUPYTER_ENABLED:-1}
+      JUPYTER_PORT: 8888
+    ports:
+      - "${SSH_BIND:-0.0.0.0}:${SSH_PORT:-2222}:22"
+      - "${JUPYTER_BIND:-0.0.0.0}:${JUPYTER_PORT:-8889}:8888"
     tty: true
     stdin_open: true
     command: sleep infinity
     volumes:
       - ./:/workspace
       - texdata:/texdata
-      - ${HOME}/.ssh:/home/${TEXUSER}/.ssh:ro
+      - sshdata:/etc/ssh
       - ${HOME}/.gitconfig:/home/${TEXUSER}/.gitconfig:ro
+      - ${SSH_AUTHORIZED_KEYS_FILE:-./.secrets/authorized_keys}:/run/secrets/authorized_keys:ro
 
 volumes:
   texdata:
+  sshdata:

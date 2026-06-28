@@ -28,6 +28,19 @@ You can replace the contents of `tex/` with another template/project when needed
    ```
 4. Run `Makefile` targets as needed for your project.
 
+JupyterLab and SSH run in this same container, so VS Code Dev Containers,
+mobile Jupyter access, and remote shells all use the canonical LaTeX runtime.
+Copy your public keys to `.secrets/authorized_keys` and define a private
+`JUPYTER_TOKEN` in `.secrets/jupyter.env`. The default host endpoints are:
+
+```text
+ssh://localhost:2222
+http://localhost:8889
+```
+
+The Jupyter installation includes Git integration, Jupytext, LSP integration,
+and resource usage. Its terminal uses login Bash and the default theme is dark.
+
 ## Repository structure
 
 ```text

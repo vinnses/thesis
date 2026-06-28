@@ -20,6 +20,7 @@ latex.out/
 
 # Environment files
 .env
+.secrets/
 
 # Dynamically managed latexctl checkout when kept inside the project.
 /.latexctl/

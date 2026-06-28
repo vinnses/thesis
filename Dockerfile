@@ -45,8 +45,12 @@ RUN apt-get update && \
   nano \
   netcat-openbsd \
   openssh-client \
+  openssh-server \
   perl \
   procps \
+  python3 \
+  python3-pip \
+  python3-venv \
   ripgrep \
   rsync \
   sudo \
@@ -59,6 +63,12 @@ RUN apt-get update && \
   sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
   locale-gen en_US.UTF-8 && \
   rm -rf /var/lib/apt/lists/*
+
+COPY requirements-jupyter.txt /tmp/requirements-jupyter.txt
+RUN python3 -m venv /opt/jupyter && \
+  /opt/jupyter/bin/pip install --no-cache-dir --upgrade pip && \
+  /opt/jupyter/bin/pip install --no-cache-dir -r /tmp/requirements-jupyter.txt && \
+  rm /tmp/requirements-jupyter.txt
 
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
@@ -89,6 +99,8 @@ fi
 EOF
 
 COPY --chmod=0755 bin/latexctl /usr/local/bin/latexctl
+
+EXPOSE 22 8888
 
 ENTRYPOINT ["/workspace/entrypoint.sh"]
 
