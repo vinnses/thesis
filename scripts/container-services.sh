@@ -4,6 +4,14 @@ set -euo pipefail
 user="${TEXUSER:-${USERNAME:-$(id -un)}}"
 home_dir="$(getent passwd "$user" | cut -d: -f6)"
 
+sudo tee /usr/local/bin/workspace-shell >/dev/null <<'EOF'
+#!/bin/sh
+cd /workspace
+exec /bin/bash "$@"
+EOF
+sudo chmod 0755 /usr/local/bin/workspace-shell
+sudo usermod --shell /usr/local/bin/workspace-shell "$user"
+
 sudo ssh-keygen -A >/dev/null
 sudo install -d -m 0700 -o "$user" -g "$user" "$home_dir/.ssh"
 if [ -s /run/secrets/authorized_keys ]; then
