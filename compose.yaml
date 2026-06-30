@@ -1,5 +1,6 @@
 services:
   texservice:
+    container_name: drugslm-thesis
     build:
       context: .
       dockerfile: Dockerfile
@@ -23,7 +24,6 @@ services:
       JUPYTER_ENABLED: ${JUPYTER_ENABLED:-1}
       JUPYTER_PORT: 8888
     ports:
-      - "${SSH_BIND:-0.0.0.0}:${SSH_PORT:-2222}:22"
       - "${JUPYTER_BIND:-0.0.0.0}:${JUPYTER_PORT:-8889}:8888"
     tty: true
     stdin_open: true
@@ -34,7 +34,14 @@ services:
       - sshdata:/etc/ssh
       - ${HOME}/.gitconfig:/home/${TEXUSER}/.gitconfig:ro
       - ${SSH_AUTHORIZED_KEYS_FILE:-./.secrets/authorized_keys}:/run/secrets/authorized_keys:ro
+    networks:
+      - mestrado_network
 
 volumes:
   texdata:
   sshdata:
+
+networks:
+  mestrado_network:
+    name: mestrado_network
+    external: true

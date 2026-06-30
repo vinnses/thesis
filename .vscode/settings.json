@@ -4,6 +4,8 @@
       "name": "make-build",
       "command": "make",
       "args": [
+        "-C",
+        "/workspace",
         "build"
       ]
     },
@@ -11,6 +13,8 @@
       "name": "make-pdf",
       "command": "make",
       "args": [
+        "-C",
+        "/workspace",
         "pdf"
       ]
     },
@@ -18,6 +22,8 @@
       "name": "make-watch",
       "command": "make",
       "args": [
+        "-C",
+        "/workspace",
         "watch"
       ]
     }
