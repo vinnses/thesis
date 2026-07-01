@@ -98,6 +98,10 @@ if [ -n "${PS1:-}" ]; then
 fi
 EOF
 
+RUN cat > /etc/profile.d/thesis-path.sh <<'EOF'
+export PATH="/usr/local/texlive/bin/x86_64-linux:${PATH}:${TEXMFHOME}/scripts:/workspace/bin"
+EOF
+
 COPY --chmod=0755 bin/latexctl /usr/local/bin/latexctl
 
 EXPOSE 22 8888
@@ -115,7 +119,6 @@ RUN set -eux; \
   { echo 'selected_scheme scheme-basic'; echo 'TEXDIR /usr/local/texlive'; echo 'option_doc 0'; echo 'option_src 0'; } > "${tmpdir}/texlive.profile"; \
   "${installer_dir}/install-tl" -profile "${tmpdir}/texlive.profile"; \
   rm -rf "${tmpdir}"; \
-  tlmgr option repository "${ctan_repo}"; \
   tlmgr install latexmk
 
 USER ${USERNAME}
@@ -131,8 +134,7 @@ RUN set -eux; \
   installer_dir="$(find "${tmpdir}" -maxdepth 1 -type d -name 'install-tl-*' | head -n1)"; \
   { echo 'selected_scheme scheme-full'; echo 'TEXDIR /usr/local/texlive'; echo 'option_doc 0'; echo 'option_src 0'; } > "${tmpdir}/texlive.profile"; \
   "${installer_dir}/install-tl" -profile "${tmpdir}/texlive.profile"; \
-  rm -rf "${tmpdir}"; \
-  tlmgr option repository "${ctan_repo}"
+  rm -rf "${tmpdir}"
 
 USER ${USERNAME}
 CMD ["bash"]

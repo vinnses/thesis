@@ -7,6 +7,7 @@ home_dir="$(getent passwd "$user" | cut -d: -f6)"
 sudo tee /usr/local/bin/workspace-shell >/dev/null <<'EOF'
 #!/bin/sh
 cd /workspace
+export PATH="/usr/local/texlive/bin/x86_64-linux:${PATH}:${TEXMFHOME}/scripts:/workspace/bin"
 exec /bin/bash "$@"
 EOF
 sudo chmod 0755 /usr/local/bin/workspace-shell
