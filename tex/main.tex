@@ -54,19 +54,17 @@
 % Principais dados, usados para gerar as páginas iniciais.
 % Campos não utilizados podem ser comentados.
 
-% título
-\title{Análise de tecnicas de modelos pequenos de linguagem em dominos farmaceuticos\\ (escrevi um título mais longo para ver como se comporta a quebra de linhas e o espaçamento entre elas)}
+% título — versão de trabalho; ajustar após alinhamento com orientador
+\title{Modelos de Linguagem Pequenos com e sem Recuperação Aumentada para Perguntas sobre Bulas de Medicamentos}
 
-% palavras-chave e keywords (p/ resumo, abstract e metadados).
-% A primeira inicia com maiúscula, as demais com minúscula (exceto
-% nomes e siglas); separar com ";" e finalizar com ponto final.
-\pchave{Palavra-chave; palavra-chave; palavra-chave.}
-\keyword{Keyword; keyword; keyword.}
+% palavras-chave e keywords — a definir
+\pchave{Modelos de linguagem; recuperação aumentada por geração; bulas de medicamentos; avaliação de sistemas.}
+\keyword{Language models; retrieval-augmented generation; drug leaflets; system evaluation.}
 
-% autoria
-\author{Carlos Alberto Maziero}
-\advisor{Donald Knuth}
-\coadvisor{Leslie Lamport}
+% autoria — orientador a confirmar
+\author{Vinícius de Lima Gonçalves}
+\advisor{Orientador a confirmar}
+%\coadvisor{}
 
 \IfLanguageName{brazilian}
 {
@@ -98,7 +96,7 @@
 % em português, mesmo em documentos em outras línguas. Vá entender...
 
 % tese de doutorado
-\descr{Tese apresentada como requisito parcial à obtenção do grau de Doutor em Ciência da Computação no Programa de Pós-Graduação em Informática, Setor de Ciências Exatas, da Universidade Federal do Paraná}
+%\descr{Tese apresentada como requisito parcial à obtenção do grau de Doutor em Ciência da Computação no Programa de Pós-Graduação em Informática, Setor de Ciências Exatas, da Universidade Federal do Paraná}
 
 % exame de qualificação de doutorado
 %\descr{Documento apresentado como requisito parcial ao exame de qualificação de Doutorado no Programa de Pós-Graduação em Informática, Setor de Ciências Exatas, da Universidade Federal do Paraná}
@@ -107,7 +105,7 @@
 %\descr{Dissertação apresentada como requisito parcial à obtenção do grau de Mestre em Informática no Programa de Pós-Graduação em Informática, Setor de Ciências Exatas, da Universidade Federal do Paraná}
 
 % exame de qualificação de mestrado
-%\descr{Documento apresentado como requisito parcial ao exame de qualificação de Mestrado no Programa de Pós-Graduação em Informática, Setor de Ciências Exatas, da Universidade Federal do Paraná}
+\descr{Documento apresentado como requisito parcial ao exame de qualificação de Mestrado no Programa de Pós-Graduação em Informática, Setor de Ciências Exatas, da Universidade Federal do Paraná}
 
 % trabalho de conclusão de curso
 %\descr{Trabalho apresentado como requisito parcial à conclusão do Curso de Bacharelado em XYZ, Setor de Ciências Exatas, da Universidade Federal do Paraná}
@@ -162,13 +160,13 @@
 \mainmatter
 \pagestyle{mainmatter}
 
-% inclusao de cada capítulo, alterar a gosto (do professor de Metodologia)
+% inclusao de cada capítulo
 \include{1-intro/texto}			% introdução
 \include{2-fundam/texto}		% fundamentação teórica
-%\include{3-arte/texto}			% estado da arte
-%\include{4-proposta/texto}		% proposta
-%\include{5-valida/texto}		% experimentação e validação
-%\include{6-conclusao/texto}		% conclusão
+\include{3-arte/texto}			% trabalhos relacionados
+\include{4-proposta/texto}		% metodologia
+\include{5-valida/texto}		% resultados preliminares
+\include{6-conclusao/texto}		% considerações finais
 
 %=====================================================
 
@@ -185,11 +183,7 @@
 % inclusão de apêndices
 \appendix
 
-% inclusão de apêndice
-\include{a1-exemplo/texto}
-
-% inclusão de apêndice
-\include{a2-exemplo/texto}
+% apêndices a definir
 
 %=====================================================
 
