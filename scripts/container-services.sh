@@ -52,7 +52,7 @@ args=(
   --ServerApp.root_dir=/workspace
   --ServerApp.terminado_settings='{"shell_command":["/bin/bash","-l"]}'
 )
-if [ -n "${JUPYTER_TOKEN:-}" ]; then
+if [ "${JUPYTER_TOKEN+x}" = x ]; then
   args+=(--IdentityProvider.token="${JUPYTER_TOKEN}")
 fi
 

@@ -23,8 +23,9 @@ services:
       CTAN_MIRROR: ${CTAN_MIRROR:-}
       JUPYTER_ENABLED: ${JUPYTER_ENABLED:-1}
       JUPYTER_PORT: 8888
-    ports:
-      - "${JUPYTER_BIND:-0.0.0.0}:${JUPYTER_PORT:-8889}:8888"
+      JUPYTER_TOKEN: ""
+    expose:
+      - "8888"
     tty: true
     stdin_open: true
     command: sleep infinity
