@@ -35,6 +35,7 @@ services:
       - sshdata:/etc/ssh
       - ${HOME}/.gitconfig:/home/${TEXUSER}/.gitconfig:ro
       - ${SSH_AUTHORIZED_KEYS_FILE:-./.secrets/authorized_keys}:/run/secrets/authorized_keys:ro
+      - ${QUALIFICATION_SSH_KEY_FILE:-./.secrets/qualification_2026}:/home/${TEXUSER}/.ssh/qualification_2026:ro
     networks:
       - mestrado_network
 
